@@ -1,0 +1,5 @@
+{
+  "name": "LuminaRay Builder",
+  "description": "A real-time WebGL ray-tracing sandbox. Build voxel structures, place colored lights, and admire the central reflective chrome sphere in a fully dynamic lighting environment.",
+  "requestFramePermissions": []
+}
