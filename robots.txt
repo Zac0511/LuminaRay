@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /index.html
 Allow: /sitemap.xml
+Disallow: /
 
 Sitemap: https://lumina-ray.app.zac0511.com/sitemap.xml
