@@ -113,7 +113,7 @@ const App: React.FC = () => {
                         LuminaRay Builder
                     </h1>
                     <div className="text-sm text-gray-500 font-mono mb-6">
-                        Made with Gemini • <a href="https://github.com/Zac0511/LuminaRay" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors underline decoration-dotted">Source Code</a> by Zac0511</div>
+                        <a href="https://github.com/Zac0511/LuminaRay" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors underline decoration-dotted">Source Code</a> by Zac0511</div>
 
                     <p className="text-gray-300 mb-8 leading-relaxed">
                         Welcome to the Voxel Ray Tracing Sandbox. Build structures, place lights, and explore a fully dynamic environment.
@@ -251,7 +251,7 @@ const App: React.FC = () => {
                 <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 drop-shadow-lg filter">
                     LuminaRay
                 </h1>
-                <p className="text-gray-400 text-sm mt-1">Made with Gemini by Zac0511</p>
+                <p className="text-gray-400 text-sm mt-1">Made by Zac0511</p>
             </div>
         </div>
     );
