@@ -44,12 +44,12 @@ const App: React.FC = () => {
         setCameraAngle(angle);
     }, []);
 
-    const handleBlockAction = useCallback((hitPos: Vector3, normal: Vector3) => {
+    const handleBlockAction = useCallback((hitPos: Vector3, normal: Vector3, isRightClick?: boolean) => {
         setGridData(prev => {
             const newData = new Uint8Array(prev);
             const idx = (p: Vector3) => p[0] + p[1] * GRID_SIZE + p[2] * GRID_SIZE * GRID_SIZE;
 
-            if (tool === ToolType.DELETE) {
+            if (isRightClick || tool === ToolType.DELETE) {
                 const i = idx(hitPos);
                 if (i >= 0 && i < newData.length) newData[i] = 0;
             } else if (tool === ToolType.BLOCK) {
@@ -70,7 +70,7 @@ const App: React.FC = () => {
             return newData;
         });
 
-        if (tool === ToolType.LIGHT) {
+        if (!isRightClick && tool === ToolType.LIGHT) {
             const target = Math3D.add(hitPos, normal);
             const newLight: Light = {
                 position: [target[0] + 0.5, target[1] + 0.5, target[2] + 0.5],
@@ -82,8 +82,8 @@ const App: React.FC = () => {
         }
     }, [tool, selectedColorIdx, isMirrorSelected, cameraPos]);
 
-    const handleLightClick = useCallback((lightIndex: number) => {
-        if (tool === ToolType.DELETE) {
+    const handleLightClick = useCallback((lightIndex: number, isRightClick?: boolean) => {
+        if (isRightClick || tool === ToolType.DELETE) {
             setLights(prev => prev.filter((_, i) => i !== lightIndex));
         }
     }, [tool]);
@@ -162,7 +162,8 @@ const App: React.FC = () => {
                             </div>
                             <div className="mt-4 text-xs text-gray-400 bg-gray-800 p-3 rounded border border-gray-700">
                                 <p>• Click to Lock Cursor</p>
-                                <p>• Left Click: Place/Delete</p>
+                                <p>• Left Click: Place</p>
+                                <p>• Right Click: Delete</p>
                                 <p>• Shift: Run</p>
                                 <p>• Esc: Unlock Cursor</p>
                             </div>
