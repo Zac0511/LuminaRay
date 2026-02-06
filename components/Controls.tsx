@@ -11,8 +11,6 @@ interface Props {
   onToggleLayout: () => void;
   qualityMode: QualityMode;
   onToggleQuality: () => void;
-  isMirrorSelected: boolean;
-  onSelectMirror: () => void;
   showSphere: boolean;
   onToggleSphere: () => void;
 }
@@ -20,7 +18,7 @@ interface Props {
 const Controls: React.FC<Props> = ({
   selectedColorIdx, onSelectColor, tool, onSelectTool,
   keyboardLayout, onToggleLayout, qualityMode, onToggleQuality,
-  isMirrorSelected, onSelectMirror, showSphere, onToggleSphere
+  showSphere, onToggleSphere
 }) => {
 
   const getCssColor = (v: Vector3) => `rgb(${v[0] * 255}, ${v[1] * 255}, ${v[2] * 255})`;
@@ -72,6 +70,8 @@ const Controls: React.FC<Props> = ({
           </button>
         </div>
 
+
+
         {/* Tools */}
         <div className="flex gap-2">
           <button
@@ -86,33 +86,32 @@ const Controls: React.FC<Props> = ({
           >
             Light
           </button>
+          <button
+            onClick={() => onSelectTool(ToolType.MIRROR)}
+            className={`px-4 py-2 rounded-lg font-bold transition-all text-sm ${tool === ToolType.MIRROR ? 'bg-cyan-500 text-black scale-105 shadow-lg shadow-cyan-500/50' : 'bg-gray-800 hover:bg-gray-700 text-gray-400'}`}
+          >
+            Mirror
+          </button>
 
         </div>
       </div>
 
       {/* Palette */}
-      <div className="flex flex-wrap gap-1 bg-gray-900 p-2 rounded-lg justify-center items-center">
+      <div className={`flex flex-wrap gap-1 bg-gray-900 p-2 rounded-lg justify-center items-center ${tool === ToolType.MIRROR ? 'opacity-50 pointer-events-none grayscale' : ''}`}>
         {PALETTE.map((col, idx) => (
           <button
             key={idx}
             onClick={() => onSelectColor(idx)}
             style={{ backgroundColor: getCssColor(col) }}
-            className={`w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 ${selectedColorIdx === idx && !isMirrorSelected ? 'border-white scale-110 shadow-md shadow-white/20' : 'border-transparent'}`}
+            className={`w-6 h-6 rounded-full border-2 transition-transform hover:scale-110 ${selectedColorIdx === idx ? 'border-white scale-110 shadow-md shadow-white/20' : 'border-transparent'}`}
           />
         ))}
-        <div className="w-px h-6 bg-gray-700 mx-2"></div>
-        {/* Mirror Button */}
-        <button
-          onClick={onSelectMirror}
-          className={`w-6 h-6 rounded-sm border-2 transition-transform hover:scale-110 bg-gradient-to-br from-gray-300 via-white to-gray-400 ${isMirrorSelected ? 'border-blue-400 scale-110 shadow-md shadow-blue-400/50' : 'border-transparent'}`}
-          title="Mirror Block"
-        />
       </div>
 
       <div className="text-center text-[10px] text-gray-500 font-mono">
         {keyboardLayout} + Mouse (Click to lock) | Left Click: Action | Right Click: Delete | Shift: Run | Scroll: Change Color
       </div>
-    </div>
+    </div >
   );
 };
 

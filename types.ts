@@ -4,7 +4,8 @@ export type Vector3 = [number, number, number];
 export enum ToolType {
   BLOCK = 'BLOCK',
   LIGHT = 'LIGHT',
-  DELETE = 'DELETE'
+  DELETE = 'DELETE',
+  MIRROR = 'MIRROR'
 }
 
 export type KeyboardLayout = 'WASD' | 'ZQSD';

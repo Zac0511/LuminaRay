@@ -36,7 +36,6 @@ const App: React.FC = () => {
     const [cameraAngle, setCameraAngle] = useState({ yaw: 0, pitch: -0.2 });
 
     const [selectedColorIdx, setSelectedColorIdx] = useState(0);
-    const [isMirrorSelected, setIsMirrorSelected] = useState(false);
     const [tool, setTool] = useState<ToolType>(ToolType.BLOCK);
 
     const handleCameraMove = useCallback((pos: Vector3, angle: { yaw: number; pitch: number }) => {
@@ -63,7 +62,21 @@ const App: React.FC = () => {
                     // Collision check with camera
                     const p = Math3D.add(target, [0.5, 0.5, 0.5]);
                     if (Math3D.len(Math3D.sub(p, cameraPos)) > 1.0) {
-                        newData[i] = isMirrorSelected ? MIRROR_ID : (selectedColorIdx + 1);
+                        newData[i] = (selectedColorIdx + 1);
+                    }
+                }
+            } else if (tool === ToolType.MIRROR) {
+                const target = Math3D.add(hitPos, normal);
+                const i = idx(target);
+                // Boundary check
+                if (target[0] >= 0 && target[0] < GRID_SIZE &&
+                    target[1] >= 0 && target[1] < GRID_SIZE &&
+                    target[2] >= 0 && target[2] < GRID_SIZE) {
+
+                    // Collision check with camera
+                    const p = Math3D.add(target, [0.5, 0.5, 0.5]);
+                    if (Math3D.len(Math3D.sub(p, cameraPos)) > 1.0) {
+                        newData[i] = MIRROR_ID;
                     }
                 }
             }
@@ -80,7 +93,7 @@ const App: React.FC = () => {
             };
             setLights(prev => prev.length < 100 ? [...prev, newLight] : prev);
         }
-    }, [tool, selectedColorIdx, isMirrorSelected, cameraPos]);
+    }, [tool, selectedColorIdx, cameraPos]);
 
     const handleLightClick = useCallback((lightIndex: number, isRightClick?: boolean) => {
         if (isRightClick || tool === ToolType.DELETE) {
@@ -102,15 +115,15 @@ const App: React.FC = () => {
     }, []);
 
     const handleColorCycle = useCallback((direction: number) => {
+        if (tool === ToolType.MIRROR) return;
         setTool(prev => prev === ToolType.LIGHT ? ToolType.LIGHT : ToolType.BLOCK);
-        setIsMirrorSelected(false);
         setSelectedColorIdx(prev => {
             let newIdx = prev + direction;
             if (newIdx < 0) newIdx = PALETTE.length - 1;
             if (newIdx >= PALETTE.length) newIdx = 0;
             return newIdx;
         });
-    }, []);
+    }, [tool]);
 
     // Warning Modal
     if (!warningAccepted) {
@@ -195,14 +208,10 @@ const App: React.FC = () => {
 
     const handleSelectColor = (idx: number) => {
         setSelectedColorIdx(idx);
-        setIsMirrorSelected(false);
         setTool(ToolType.BLOCK);
     }
 
-    const handleSelectMirror = () => {
-        setIsMirrorSelected(true);
-        setTool(ToolType.BLOCK);
-    }
+
 
     const handleFpsUpdate = (newFps: number) => {
         setFps(newFps);
@@ -246,8 +255,7 @@ const App: React.FC = () => {
                 onToggleLayout={toggleLayout}
                 qualityMode={qualityMode}
                 onToggleQuality={toggleQuality}
-                isMirrorSelected={isMirrorSelected}
-                onSelectMirror={handleSelectMirror}
+
                 showSphere={showSphere}
                 onToggleSphere={() => setShowSphere(prev => !prev)}
             />
