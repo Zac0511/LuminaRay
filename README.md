@@ -14,4 +14,4 @@ Infinite space made with mirrors
 ## Puter app
 LuminaRay is also available as an app for the Puter web OS.
 
-You can find it here : https://apps.puter.com/app/luminaray
+You can find it here : https://apps.puter.com/app/lumina-ray
