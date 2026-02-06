@@ -7,9 +7,9 @@ void main() {
 `;
 
 interface ShaderConfig {
-  maxSteps: number;
-  maxBounces: number;
-  shadowSteps: number;
+    maxSteps: number;
+    maxBounces: number;
+    shadowSteps: number;
 }
 
 export const getFragmentShaderSource = (config: ShaderConfig) => `#version 300 es
@@ -33,7 +33,7 @@ struct Light {
   vec3 color;
   float radius;
 };
-uniform Light u_lights[10];
+uniform Light u_lights[100];
 uniform int u_lightCount;
 
 out vec4 outColor;
@@ -211,7 +211,7 @@ SceneHit map(vec3 ro, vec3 rd) {
     }
 
     // 3. Check Lights (Visuals)
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 50; i++) {
         if (i >= u_lightCount) break;
         float lT = intersectSphere(ro, rd, u_lights[i].position, 0.15); // Light visual radius
         if (lT > 0.0 && lT < hit.t) {
@@ -233,7 +233,7 @@ vec3 getLighting(vec3 p, vec3 n, vec3 baseColor, float metallic) {
     // Ambient
     finalColor += baseColor * 0.1;
 
-    for(int i=0; i<10; i++) {
+    for(int i=0; i<50; i++) {
         if (i >= u_lightCount) break;
         
         vec3 L = u_lights[i].position - p;

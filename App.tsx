@@ -78,7 +78,7 @@ const App: React.FC = () => {
                 radius: 2.0,
                 intensity: 2.0
             };
-            setLights(prev => prev.length < 10 ? [...prev, newLight] : prev);
+            setLights(prev => prev.length < 100 ? [...prev, newLight] : prev);
         }
     }, [tool, selectedColorIdx, isMirrorSelected, cameraPos]);
 
