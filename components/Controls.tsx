@@ -110,7 +110,7 @@ const Controls: React.FC<Props> = ({
       </div>
 
       <div className="text-center text-[10px] text-gray-500 font-mono">
-        {keyboardLayout} + Mouse (Click to lock) | Left Click: Action | Right Click: Delete | Shift: Run
+        {keyboardLayout} + Mouse (Click to lock) | Left Click: Action | Right Click: Delete | Shift: Run | Scroll: Change Color
       </div>
     </div>
   );

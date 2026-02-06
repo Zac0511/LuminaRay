@@ -177,6 +177,7 @@ const App: React.FC = () => {
                                 <p>• Right Click: Delete</p>
                                 <p>• Shift: Run</p>
                                 <p>• Esc: Unlock Cursor</p>
+                                <p>• Scroll: Change Color</p>
                             </div>
                         </div>
                     </div>
