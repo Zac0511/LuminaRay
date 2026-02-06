@@ -33,6 +33,7 @@ jobs:
           cp robots.txt dist/
           cp sitemap.xml dist/
           cp favicon.ico dist/
+          cp social-preview.png dist/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
