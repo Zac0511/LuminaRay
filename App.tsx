@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import RayTracerCanvas from './components/RayTracerCanvas';
 import Controls from './components/Controls';
 import { Vector3, GRID_SIZE, Light, ToolType, PALETTE, KeyboardLayout, QualityMode, MIRROR_ID } from './types';
@@ -37,6 +37,17 @@ const App: React.FC = () => {
 
     const [selectedColorIdx, setSelectedColorIdx] = useState(0);
     const [tool, setTool] = useState<ToolType>(ToolType.BLOCK);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.code === 'Digit1') setTool(ToolType.BLOCK);
+            if (e.code === 'Digit2') setTool(ToolType.LIGHT);
+            if (e.code === 'Digit3') setTool(ToolType.MIRROR);
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
 
     const handleCameraMove = useCallback((pos: Vector3, angle: { yaw: number; pitch: number }) => {
         setCameraPos(pos);
@@ -191,6 +202,7 @@ const App: React.FC = () => {
                                 <p>• Shift: Run</p>
                                 <p>• Esc: Unlock Cursor</p>
                                 <p>• Scroll: Change Color</p>
+                                <p>• 1, 2, 3: Switch Tools</p>
                             </div>
                         </div>
                     </div>

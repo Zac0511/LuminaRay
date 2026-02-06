@@ -78,19 +78,19 @@ const Controls: React.FC<Props> = ({
             onClick={() => onSelectTool(ToolType.BLOCK)}
             className={`px-4 py-2 rounded-lg font-bold transition-all text-sm ${tool === ToolType.BLOCK ? 'bg-purple-600 text-white scale-105 shadow-lg shadow-purple-500/50' : 'bg-gray-800 hover:bg-gray-700 text-gray-400'}`}
           >
-            Block
+            <span className="opacity-50 mr-1.5">1</span>Block
           </button>
           <button
             onClick={() => onSelectTool(ToolType.LIGHT)}
             className={`px-4 py-2 rounded-lg font-bold transition-all text-sm ${tool === ToolType.LIGHT ? 'bg-yellow-500 text-black scale-105 shadow-lg shadow-yellow-500/50' : 'bg-gray-800 hover:bg-gray-700 text-gray-400'}`}
           >
-            Light
+            <span className="opacity-50 mr-1.5">2</span>Light
           </button>
           <button
             onClick={() => onSelectTool(ToolType.MIRROR)}
             className={`px-4 py-2 rounded-lg font-bold transition-all text-sm ${tool === ToolType.MIRROR ? 'bg-cyan-500 text-black scale-105 shadow-lg shadow-cyan-500/50' : 'bg-gray-800 hover:bg-gray-700 text-gray-400'}`}
           >
-            Mirror
+            <span className="opacity-50 mr-1.5">3</span>Mirror
           </button>
 
         </div>
