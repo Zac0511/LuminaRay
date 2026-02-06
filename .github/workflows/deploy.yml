@@ -28,11 +28,11 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
-      # On copie les fichiers de config à la racine du dossier dist
       - name: Copy SEO files to dist
         run: |
           cp robots.txt dist/
           cp sitemap.xml dist/
+          cp favicon.ico dist/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
