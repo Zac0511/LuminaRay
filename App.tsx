@@ -101,6 +101,17 @@ const App: React.FC = () => {
         });
     }, []);
 
+    const handleColorCycle = useCallback((direction: number) => {
+        setTool(prev => prev === ToolType.LIGHT ? ToolType.LIGHT : ToolType.BLOCK);
+        setIsMirrorSelected(false);
+        setSelectedColorIdx(prev => {
+            let newIdx = prev + direction;
+            if (newIdx < 0) newIdx = PALETTE.length - 1;
+            if (newIdx >= PALETTE.length) newIdx = 0;
+            return newIdx;
+        });
+    }, []);
+
     // Warning Modal
     if (!warningAccepted) {
         return (
@@ -212,6 +223,7 @@ const App: React.FC = () => {
                 isPointerLocked={isPointerLocked}
                 showSphere={showSphere}
                 onFpsUpdate={handleFpsUpdate}
+                onColorCycle={handleColorCycle}
             />
 
             {/* Crosshair - only visible when pointer is locked */}

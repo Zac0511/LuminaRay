@@ -18,6 +18,7 @@ interface Props {
   isPointerLocked: boolean;
   showSphere: boolean;
   onFpsUpdate: (fps: number) => void;
+  onColorCycle: (direction: number) => void;
 }
 
 const RayTracerCanvas: React.FC<Props> = ({
@@ -33,7 +34,8 @@ const RayTracerCanvas: React.FC<Props> = ({
   onPointerLockChange,
   isPointerLocked,
   showSphere,
-  onFpsUpdate
+  onFpsUpdate,
+  onColorCycle
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [gl, setGl] = useState<WebGL2RenderingContext | null>(null);
@@ -351,6 +353,13 @@ const RayTracerCanvas: React.FC<Props> = ({
     }
   };
 
+  const handleWheel = (e: React.WheelEvent) => {
+    if (document.pointerLockElement === canvasRef.current) {
+      const direction = e.deltaY > 0 ? 1 : -1;
+      onColorCycle(direction);
+    }
+  };
+
   return (
     <canvas
       ref={canvasRef}
@@ -358,6 +367,7 @@ const RayTracerCanvas: React.FC<Props> = ({
       style={{ imageRendering: 'pixelated' }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
+      onWheel={handleWheel}
       onContextMenu={(e) => e.preventDefault()}
     />
   );
