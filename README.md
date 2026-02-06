@@ -10,3 +10,8 @@ The default state when starting LuminaRay
 
 Infinite space made with mirrors
 <img width="2560" height="1275" alt="image" src="https://github.com/user-attachments/assets/5513bb3e-46b4-4ce3-a074-be416a9c3611" />
+
+## Puter app
+LuminaRay is also available as an app for the Puter web OS.
+
+You can find it here : https://apps.puter.com/app/luminaray
