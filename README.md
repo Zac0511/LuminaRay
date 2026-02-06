@@ -5,7 +5,8 @@ You can place/remove blocks, lights, and mirrors.
 
 ## Screenshots
 The default state when starting LuminaRay
-<img width="1918" height="908" alt="image" src="https://github.com/user-attachments/assets/04e291b1-1fe7-484d-ae6f-1a3f1e612aae" />
+<img width="2560" height="1275" alt="image" src="https://github.com/user-attachments/assets/9ac95c4f-3725-491b-88cd-895e2f953205" />
+
 
 Infinite space made with mirrors
-<img width="1918" height="908" alt="image" src="https://github.com/user-attachments/assets/bf0426f6-5411-41d1-8a70-2a2e38541b63" />
+<img width="2560" height="1275" alt="image" src="https://github.com/user-attachments/assets/5513bb3e-46b4-4ce3-a074-be416a9c3611" />
