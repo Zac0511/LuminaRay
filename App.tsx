@@ -321,6 +321,8 @@ const App: React.FC = () => {
                                 <p>• Left Click: Place</p>
                                 <p>• Right Click: Delete</p>
                                 <p>• Shift: Run</p>
+                                <p>• Space: Go up</p>
+                                <p>• Ctrl: Go down</p>
                                 <p>• Esc: Unlock Cursor</p>
                                 <p>• Scroll: Change Color</p>
                                 <p>• 1, 2, 3: Switch Tools</p>
