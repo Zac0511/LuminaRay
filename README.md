@@ -3,6 +3,8 @@
 LuminaRay is an app made which allows to run a full 3D Ray-tracing simulation in your browser.
 You can place/remove blocks, lights, and mirrors.
 
+![GitHub repo size](https://img.shields.io/github/repo-size/Zac0511/LuminaRay) ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Zac0511/LuminaRay/deploy.yml)  ![GitHub License](https://img.shields.io/github/license/Zac0511/LuminaRay)
+
 ## Screenshots
 The default state when starting LuminaRay
 <img width="2560" height="1275" alt="image" src="https://github.com/user-attachments/assets/9ac95c4f-3725-491b-88cd-895e2f953205" />
