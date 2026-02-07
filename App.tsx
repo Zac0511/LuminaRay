@@ -136,6 +136,127 @@ const App: React.FC = () => {
         });
     }, [tool]);
 
+    const handleExport = useCallback(async () => {
+        const blocks: number[][] = [];
+        const mirrors: number[][] = [];
+
+        // Iterate through gridData
+        for (let x = 0; x < GRID_SIZE; x++) {
+            for (let y = 0; y < GRID_SIZE; y++) {
+                for (let z = 0; z < GRID_SIZE; z++) {
+                    const idx = x + y * GRID_SIZE + z * GRID_SIZE * GRID_SIZE;
+                    const val = gridData[idx];
+                    if (val > 0) {
+                        if (val === MIRROR_ID) {
+                            mirrors.push([x, y, z]);
+                        } else {
+                            // val is color index + 1
+                            blocks.push([x, y, z, val - 1]);
+                        }
+                    }
+                }
+            }
+        }
+
+        const buildData = {
+            version: 1,
+            timestamp: new Date().toISOString(),
+            blocks,
+            mirrors,
+            lights,
+            sphereEnabled: showSphere
+        };
+
+        const jsonString = JSON.stringify(buildData);
+
+        try {
+            // @ts-ignore - File System Access API is not yet fully standard in all TS envs
+            if (window.showSaveFilePicker) {
+                // @ts-ignore
+                const handle = await window.showSaveFilePicker({
+                    suggestedName: `creation-${Date.now()}.lrbuild`,
+                    types: [{
+                        description: 'LuminaRay Build File',
+                        accept: { 'application/json': ['.lrbuild'] },
+                    }],
+                });
+                const writable = await handle.createWritable();
+                await writable.write(jsonString);
+                await writable.close();
+            } else {
+                // Fallback for browsers that don't support the API
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `creation-${Date.now()}.lrbuild`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        } catch (err: any) {
+            // User cancelled or error
+            if (err.name !== 'AbortError') {
+                console.error('Failed to save file:', err);
+                alert('Failed to save file');
+            }
+        }
+    }, [gridData, lights, showSphere]);
+
+    const handleImport = useCallback((file: File) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const content = e.target?.result as string;
+                const data = JSON.parse(content);
+
+                // Validate version
+                if (!data.version || data.version !== 1) {
+                    alert('Unknown or unsupported file version');
+                    return;
+                }
+
+                // Restore Grid
+                const newGrid = new Uint8Array(GRID_SIZE * GRID_SIZE * GRID_SIZE);
+                if (data.blocks && Array.isArray(data.blocks)) {
+                    data.blocks.forEach((b: any) => {
+                        const [x, y, z, colorIdx] = b;
+                        if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && z >= 0 && z < GRID_SIZE) {
+                            const idx = x + y * GRID_SIZE + z * GRID_SIZE * GRID_SIZE;
+                            newGrid[idx] = colorIdx + 1;
+                        }
+                    });
+                }
+                if (data.mirrors && Array.isArray(data.mirrors)) {
+                    data.mirrors.forEach((m: any) => {
+                        const [x, y, z] = m;
+                        if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && z >= 0 && z < GRID_SIZE) {
+                            const idx = x + y * GRID_SIZE + z * GRID_SIZE * GRID_SIZE;
+                            newGrid[idx] = MIRROR_ID;
+                        }
+                    });
+                }
+                setGridData(newGrid);
+
+                // Restore Lights
+                if (data.lights && Array.isArray(data.lights)) {
+                    setLights(data.lights);
+                }
+
+                // Restore Sphere
+                if (typeof data.sphereEnabled === 'boolean') {
+                    setShowSphere(data.sphereEnabled);
+                }
+
+            } catch (err) {
+                console.error('Failed to parse build file:', err);
+                alert('Invalid file format');
+            }
+        };
+        reader.readAsText(file);
+    }, []);
+
     // Warning Modal
     if (!warningAccepted) {
         return (
@@ -270,6 +391,8 @@ const App: React.FC = () => {
 
                 showSphere={showSphere}
                 onToggleSphere={() => setShowSphere(prev => !prev)}
+                onExport={handleExport}
+                onImport={handleImport}
             />
 
             {/* Status Bar */}

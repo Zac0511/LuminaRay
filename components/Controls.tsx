@@ -13,13 +13,29 @@ interface Props {
   onToggleQuality: () => void;
   showSphere: boolean;
   onToggleSphere: () => void;
+  onExport: () => void;
+  onImport: (file: File) => void;
 }
 
 const Controls: React.FC<Props> = ({
   selectedColorIdx, onSelectColor, tool, onSelectTool,
   keyboardLayout, onToggleLayout, qualityMode, onToggleQuality,
-  showSphere, onToggleSphere
+  showSphere, onToggleSphere, onExport, onImport
 }) => {
+
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      onImport(file);
+    }
+    e.target.value = '';
+  };
 
   const getCssColor = (v: Vector3) => `rgb(${v[0] * 255}, ${v[1] * 255}, ${v[2] * 255})`;
 
@@ -44,6 +60,32 @@ const Controls: React.FC<Props> = ({
       <div className="flex justify-between items-center gap-4">
 
         <div className="flex gap-2">
+          {/* File Actions */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept=".lrbuild"
+            className="hidden"
+          />
+          <button
+            onClick={handleImportClick}
+            className="px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-xs font-mono text-gray-300 border border-gray-700"
+            title="Import Build"
+          >
+            📂 Import
+          </button>
+          <button
+            onClick={onExport}
+            className="px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-xs font-mono text-gray-300 border border-gray-700"
+            title="Export Build"
+          >
+            💾 Export
+          </button>
+
+          {/* Separator */}
+          <div className="w-px bg-gray-700 mx-1"></div>
+
           {/* Layout Toggle */}
           <button
             onClick={onToggleLayout}
@@ -66,7 +108,7 @@ const Controls: React.FC<Props> = ({
             className={`px-3 py-2 rounded-lg text-xs font-bold font-mono border border-gray-700 ${showSphere ? 'bg-purple-900/50 text-purple-200 border-purple-800' : 'bg-gray-800 text-gray-500'}`}
             title="Toggle Central Sphere"
           >
-            {showSphere ? '⦿ ON' : '⦿ OFF'}
+            {showSphere ? '⦿' : '⦾'}
           </button>
         </div>
 
