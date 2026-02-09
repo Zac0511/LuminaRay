@@ -8,7 +8,6 @@ export enum ToolType {
   MIRROR = 'MIRROR'
 }
 
-export type KeyboardLayout = 'WASD' | 'ZQSD';
 
 export type QualityMode = 'LOW' | 'MEDIUM' | 'HIGH' | 'ULTRA';
 

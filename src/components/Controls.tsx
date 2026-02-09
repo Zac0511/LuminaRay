@@ -1,14 +1,14 @@
 
 import React from 'react';
-import { PALETTE, ToolType, Vector3, KeyboardLayout, QualityMode, MIRROR_ID } from '../types';
+import { PALETTE, ToolType, Vector3, QualityMode, MIRROR_ID } from '../types';
 
 interface Props {
   selectedColorIdx: number;
   onSelectColor: (idx: number) => void;
   tool: ToolType;
   onSelectTool: (t: ToolType) => void;
-  keyboardLayout: KeyboardLayout;
-  onToggleLayout: () => void;
+  // keyboardLayout prop removed
+  // onToggleLayout prop removed
   qualityMode: QualityMode;
   onToggleQuality: () => void;
   showSphere: boolean;
@@ -19,7 +19,8 @@ interface Props {
 
 const Controls: React.FC<Props> = ({
   selectedColorIdx, onSelectColor, tool, onSelectTool,
-  keyboardLayout, onToggleLayout, qualityMode, onToggleQuality,
+  // keyboardLayout, onToggleLayout removed
+  qualityMode, onToggleQuality,
   showSphere, onToggleSphere, onExport, onImport
 }) => {
 
@@ -86,14 +87,6 @@ const Controls: React.FC<Props> = ({
           {/* Separator */}
           <div className="w-px bg-gray-700 mx-1"></div>
 
-          {/* Layout Toggle */}
-          <button
-            onClick={onToggleLayout}
-            className="px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-xs font-mono text-gray-300 border border-gray-700"
-            title="Toggle Keyboard Layout"
-          >
-            ⌨️ {keyboardLayout}
-          </button>
           {/* Quality Toggle */}
           <button
             onClick={onToggleQuality}
@@ -151,7 +144,7 @@ const Controls: React.FC<Props> = ({
       </div>
 
       <div className="text-center text-[10px] text-gray-500 font-mono">
-        {keyboardLayout} + Mouse (Click to lock) | Left Click: Action | Right Click: Delete | Space: Go up | Ctrl: Go down | Shift: Run | Scroll: Change Color
+        WASD / ZQSD + Mouse (Click to lock) | Left Click: Action | Right Click: Delete | Space: Go up | Ctrl: Go down | Shift: Run | Scroll: Change Color
       </div>
     </div >
   );

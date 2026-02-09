@@ -1,7 +1,7 @@
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { vertexShaderSource, getFragmentShaderSource } from '../lib/shader';
-import { Vector3, Light, GRID_SIZE, PALETTE, KeyboardLayout, QualityMode } from '../types';
+import { Vector3, Light, GRID_SIZE, PALETTE, QualityMode } from '../types';
 import * as Math3D from '../lib/math';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
   onCameraMove: (pos: Vector3, angle: { yaw: number; pitch: number }) => void;
   onBlockAction: (hitPos: Vector3, normal: Vector3, isRightClick?: boolean) => void;
   onLightClick: (lightIndex: number, isRightClick?: boolean) => void;
-  keyboardLayout: KeyboardLayout;
+  // keyboardLayout prop removed
   qualityMode: QualityMode;
   onPointerLockChange: (isLocked: boolean) => void;
   isPointerLocked: boolean;
@@ -29,7 +29,7 @@ const RayTracerCanvas: React.FC<Props> = ({
   onCameraMove,
   onBlockAction,
   onLightClick,
-  keyboardLayout,
+  // keyboardLayout prop removed
   qualityMode,
   onPointerLockChange,
   isPointerLocked,
@@ -216,17 +216,13 @@ const RayTracerCanvas: React.FC<Props> = ({
       if (keysPressed.current['shift']) speed *= 2;
       let forward = 0, right = 0, up = 0;
 
-      const fwdKey = keyboardLayout === 'WASD' ? 'w' : 'z';
-      const backKey = 's';
-      const leftKey = keyboardLayout === 'WASD' ? 'a' : 'q';
-      const rightKey = 'd';
-
-      if (keysPressed.current[fwdKey]) forward += 1;
-      if (keysPressed.current[backKey]) forward -= 1;
-      if (keysPressed.current[rightKey]) right += 1;
-      if (keysPressed.current[leftKey]) right -= 1;
-      if (keysPressed.current[' ']) up += 1;
-      if (keysPressed.current['control']) up -= 1;
+      // Use physical key codes (works for WASD, ZQSD, etc automatically)
+      if (keysPressed.current['KeyW']) forward += 1;
+      if (keysPressed.current['KeyS']) forward -= 1;
+      if (keysPressed.current['KeyD']) right += 1;
+      if (keysPressed.current['KeyA']) right -= 1;
+      if (keysPressed.current['Space']) up += 1;
+      if (keysPressed.current['ControlLeft'] || keysPressed.current['ControlRight']) up -= 1;
 
       if (forward !== 0 || right !== 0 || up !== 0) {
         const yaw = cameraAngleRef.current.yaw;
@@ -276,11 +272,11 @@ const RayTracerCanvas: React.FC<Props> = ({
     return () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, [gl, render, isPointerLocked, keyboardLayout, onCameraMove, onFpsUpdate]); // Removed cameraPos/cameraAngle from deps
+  }, [gl, render, isPointerLocked, onCameraMove, onFpsUpdate]);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => { keysPressed.current[e.key.toLowerCase()] = true; };
-    const handleKeyUp = (e: KeyboardEvent) => { keysPressed.current[e.key.toLowerCase()] = false; };
+    const handleKeyDown = (e: KeyboardEvent) => { keysPressed.current[e.code] = true; };
+    const handleKeyUp = (e: KeyboardEvent) => { keysPressed.current[e.code] = false; };
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
 

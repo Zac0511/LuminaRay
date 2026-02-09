@@ -28,12 +28,6 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
-      - name: Copy SEO files to dist
-        run: |
-          cp robots.txt dist/
-          cp sitemap.xml dist/
-          cp favicon.ico dist/
-          cp social-preview.png dist/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

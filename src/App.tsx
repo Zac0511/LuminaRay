@@ -2,12 +2,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import RayTracerCanvas from './components/RayTracerCanvas';
 import Controls from './components/Controls';
-import { Vector3, GRID_SIZE, Light, ToolType, PALETTE, KeyboardLayout, QualityMode, MIRROR_ID } from './types';
+import { Vector3, GRID_SIZE, Light, ToolType, PALETTE, QualityMode, MIRROR_ID } from './types';
 import * as Math3D from './lib/math';
 
 const App: React.FC = () => {
     const [warningAccepted, setWarningAccepted] = useState(false);
-    const [keyboardLayout, setKeyboardLayout] = useState<KeyboardLayout>('WASD');
+    // keyboardLayout state removed
     const [qualityMode, setQualityMode] = useState<QualityMode>('LOW');
     const [isPointerLocked, setIsPointerLocked] = useState(false);
     const [showSphere, setShowSphere] = useState(true);
@@ -112,9 +112,7 @@ const App: React.FC = () => {
         }
     }, [tool]);
 
-    const toggleLayout = useCallback(() => {
-        setKeyboardLayout(prev => prev === 'WASD' ? 'ZQSD' : 'WASD');
-    }, []);
+    // toggleLayout removed
 
     const toggleQuality = useCallback(() => {
         setQualityMode(prev => {
@@ -302,20 +300,6 @@ const App: React.FC = () => {
 
                         <div className="flex flex-col gap-2 text-left">
                             <h3 className="text-gray-400 font-bold text-sm uppercase tracking-wider">Controls</h3>
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={() => setKeyboardLayout('WASD')}
-                                    className={`flex-1 py-3 rounded-lg font-mono border ${keyboardLayout === 'WASD' ? 'bg-purple-600/30 border-purple-500 text-white' : 'bg-gray-800 border-gray-700 text-gray-500'}`}
-                                >
-                                    WASD
-                                </button>
-                                <button
-                                    onClick={() => setKeyboardLayout('ZQSD')}
-                                    className={`flex-1 py-3 rounded-lg font-mono border ${keyboardLayout === 'ZQSD' ? 'bg-purple-600/30 border-purple-500 text-white' : 'bg-gray-800 border-gray-700 text-gray-500'}`}
-                                >
-                                    ZQSD
-                                </button>
-                            </div>
                             <div className="mt-4 text-xs text-gray-400 bg-gray-800 p-3 rounded border border-gray-700">
                                 <p>• Click to Lock Cursor</p>
                                 <p>• Left Click: Place</p>
@@ -362,7 +346,6 @@ const App: React.FC = () => {
                 onCameraMove={handleCameraMove}
                 onBlockAction={handleBlockAction}
                 onLightClick={handleLightClick}
-                keyboardLayout={keyboardLayout}
                 qualityMode={qualityMode}
                 onPointerLockChange={setIsPointerLocked}
                 isPointerLocked={isPointerLocked}
@@ -386,8 +369,7 @@ const App: React.FC = () => {
                 onSelectColor={handleSelectColor}
                 tool={tool}
                 onSelectTool={setTool}
-                keyboardLayout={keyboardLayout}
-                onToggleLayout={toggleLayout}
+                // keyboardLayout props removed
                 qualityMode={qualityMode}
                 onToggleQuality={toggleQuality}
 
